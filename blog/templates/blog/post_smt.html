@@ -1,0 +1,11 @@
+ {% extends 'blog/base.html' %}
+{% block content %}
+    { {% for post in smt %}
+        <div class="articles pt-4">
+           <h1 class="d-flex justify-content-between">
+                <p class="">{{ post.title }}</p>
+{#               <p>{{  }}</p>#}
+        </div>
+        <hr>
+    {% endfor %}
+{% endblock %}

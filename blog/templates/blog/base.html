@@ -1,0 +1,58 @@
+{% load static from staticfiles %}
+<html>
+    <head>
+        <title>Twitter Blog</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+    </head>
+    <body>
+    <header class="">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-between">
+            <a class="navbar-brand" href="{% url 'post_list' %}"> <h2><span class="glyphicon glyphicon-home"/> <i>Главная</i> </h2></a>
+                 <h1><a href="{% url 'post_list' %}"><img src="{% static 'twitter.png' %}" height="40" width="" alt="djangonautic" /></a></h1>
+            <div class="pt-4">
+
+                 {% if user.is_authenticated %}
+                <a href="{% url 'post_new' %}" class="highlight"><span class="glyphicon glyphicon-edit"/> Tweet</a>
+                 <a href="{% url 'post_draft_list' %}" class="highlight">Draft</a>
+                <li>
+                        <form class="" action="{% url 'accounts:logout' %}" method="post">
+                            {% csrf_token %}
+                            <button class="highlight" type="submit">Logout</button>
+                        </form>
+
+                    </li>
+                    <li>
+{#                        <a href="{% url 'articles:create' %}" class="highlight">Twit</a></li>#}
+                {% else %}
+                    <li><a class="highlight" href="{% url 'accounts:login' %}">Login</a></li>
+                    <li><a class="highlight" href="{% url 'accounts:signup' %}">Signup</a></li>
+                    {% endif %}
+            </div>
+            </nav>
+        </div>
+    </header>
+        <div class="content container mt-5">
+            <div class="row">
+                <div class="col-md-3 pl-5">
+                <div class="about d-flex justify-content-center align-items-center flex-column">
+                        @{{user.username }}
+                      {% if user.is_authenticated %}
+                         <a href="{% url 'post_my_list' %}" class="highlight">
+                             <span class="glyphicon glyphicon-check"> </span>My Posts
+                         </a>
+{#                            <a href="{% url 'post_my_list' pk=post.pk %}">Posts: {{ post.my_posts.count }}</a>#}
+
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-9 twit">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
